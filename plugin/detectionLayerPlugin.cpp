@@ -20,6 +20,8 @@
 
 using namespace nvinfer1;
 using namespace plugin;
+using nvinfer1::plugin::DetectionLayer;
+using nvinfer1::plugin::DetectionLayerPluginCreator;
 
 namespace
 {
@@ -98,13 +100,13 @@ DetectionLayer::DetectionLayer(int num_classes, int keep_topk, float score_thres
     , mScoreThreshold(score_threshold)
     , mIOUThreshold(iou_threshold)
 {
-    mBackgroundLabel = 80;
+    mBackgroundLabel = 0;
     assert(mNbClasses > 0);
     assert(mKeepTopK > 0);
     assert(score_threshold >= 0.0f);
     assert(iou_threshold > 0.0f);
 
-    mParam.backgroundLabelId = 80;
+    mParam.backgroundLabelId = 0;
     mParam.numClasses = mNbClasses;
     mParam.keepTopK = mKeepTopK;
     mParam.scoreThreshold = mScoreThreshold;
@@ -145,12 +147,12 @@ bool DetectionLayer::supportsFormat(DataType type, PluginFormat format) const
 
 const char* DetectionLayer::getPluginType() const
 {
-    return DETECTIONLAYER_PLUGIN_NAME;
+    return "DetectionLayer_TRT";
 };
 
 const char* DetectionLayer::getPluginVersion() const
 {
-    return DETECTIONLAYER_PLUGIN_VERSION;
+    return "1";
 };
 
 IPluginV2Ext* DetectionLayer::clone() const
