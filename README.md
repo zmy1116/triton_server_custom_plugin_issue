@@ -29,6 +29,9 @@ Within the Triton server container, assuming the model is in path `/ubuntu/model
 LD_PRELOAD=/ubuntu/libtestplugins.so tritonserver --model-repository=/ubuntu/model_repository --strict-model-config=false
 ```
 
+In the model_repository, just put any model so that triton server will launch, the model does not need to call the custom plugin, the error occurs before models are loaded.
+
+
 The produced error messages are:
 ```
 I1105 06:27:12.184359 1991 metrics.cc:184] found 1 GPUs supporting NVML metrics
